@@ -1,0 +1,4 @@
+---
+# tasks file for wireguard_users
+- include_tasks: users.yml
+  tags: users

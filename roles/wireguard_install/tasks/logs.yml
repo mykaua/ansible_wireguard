@@ -1,0 +1,9 @@
+# Logs enable
+---
+- name: Add Wireguard to kernel
+  modprobe:
+    name: wireguard
+    state: present
+
+- name: enable WireGuard dyndbg logging
+  shell: echo module wireguard +p > /sys/kernel/debug/dynamic_debug/control

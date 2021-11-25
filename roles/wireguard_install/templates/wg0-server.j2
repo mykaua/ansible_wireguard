@@ -1,0 +1,6 @@
+[Interface]
+Address = {{ wg_ipv4 }}/32
+PrivateKey = {{ wg_privatekey['content'] | b64decode | replace('\n', '')}}
+ListenPort = {{ wg_port }}
+PostUp = iptables -A FORWARD -i {{public_nic}} -o {{wg_nic}} -j ACCEPT;iptables -A FORWARD -i {{wg_nic}} -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ public_nic }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i {{public_nic}} -o {{wg_nic}} -j ACCEPT; iptables -D FORWARD -i {{wg_nic}} -j ACCEPT; iptables -t nat -D POSTROUTING -o {{public_nic}} -j MASQUERADE;

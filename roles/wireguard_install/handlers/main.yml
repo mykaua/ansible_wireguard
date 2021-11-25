@@ -1,0 +1,14 @@
+---
+# handlers file for wireguard_install
+- name: start wg0
+  systemd:
+    name: "wg-quick@{{wg_nic}}"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: restart wg0
+  systemd:
+    name: "wg-quick@{{wg_nic}}"
+    state: restarted
+    daemon_reload: yes

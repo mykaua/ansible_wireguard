@@ -1,0 +1,9 @@
+[Interface]
+PrivateKey = {{ item.content | b64decode | trim }}
+Address = {{ item.item.value.wg_private_ip }}/24
+DNS = {{ client_dns_1 }},{{client_dns_2}}
+
+[Peer]
+PublicKey = {{wg_server_public_key.stdout}}
+Endpoint = {{ public_ip }}:{{wg_port}}
+AllowedIPs = {{ allowed_ips }}

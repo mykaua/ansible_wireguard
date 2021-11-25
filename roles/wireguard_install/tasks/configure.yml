@@ -1,0 +1,40 @@
+---
+- name: Create wireguard config dir
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{wg_conf_dir}}"
+    - "{{wg_conf_dir}}/keys"
+
+- name: Generate wireguard server keypair
+  shell: |
+    if [ ! -f {{ wg_conf_dir}}/keys/wg_privatekey ]
+     then
+      umask 077 && wg genkey | tee {{wg_conf_dir}}/keys/wg_privatekey | wg pubkey > {{wg_conf_dir}}/keys/wg_publickey
+    fi
+    exit 0
+
+- name: Get wireguard private key
+  slurp:
+    src: "{{wg_conf_dir}}/keys/wg_privatekey"
+  register: wg_privatekey
+
+- name: Get wireguard public key
+  slurp:
+    src: "{{wg_conf_dir}}/keys/wg_publickey"
+  register: wg_publickey
+
+- name: Generate Wireguard server config
+  template:
+    src: "wg0-server.j2"
+    dest: "{{ wg_conf_dir}}/wg0.conf"
+    mode: 0640
+    backup: yes
+  notify: restart wg0
+
+- name: Start Wireguard server
+  systemd:
+    name: "wg-quick@{{wg_nic}}"
+    state: started
+    enabled: yes
