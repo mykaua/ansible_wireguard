@@ -1,0 +1,14 @@
+---
+- name: Generate Wireguard server config
+  template:
+    src: "wg0-server.j2"
+    dest: "{{ wg_conf_dir}}/wg0.conf"
+    mode: 0640
+#    backup: yes
+  notify: restart wg0
+
+- name: Start Wireguard server
+  systemd:
+    name: "wg-quick@{{wg_nic}}"
+    state: started
+    enabled: yes

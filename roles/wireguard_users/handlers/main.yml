@@ -1,0 +1,7 @@
+---
+# handlers file for wireguard_users
+- name: restart wg0
+  systemd:
+    name: "wg-quick@{{wg_nic}}"
+    state: restarted
+    daemon_reload: yes

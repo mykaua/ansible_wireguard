@@ -1,0 +1,29 @@
+---
+- name: insert user configuration to wireguard
+  blockinfile:
+    path: "{{wg_conf_dir}}/{{wg_nic}}.conf"
+    state: present
+    marker: "# {mark} user config {{ item.key}}"
+    block: "{{ lookup('template', 'wg-config.j2') }}"
+  with_dict: "{{ wg_user_list }}"
+  when: (item.value.remove == false)
+  no_log: true
+  notify: restart wg0
+
+- name: remove user configuration from wireguard
+  blockinfile:
+    path: "{{wg_conf_dir}}/{{wg_nic}}.conf"
+    state: absent
+    marker: "# {mark} user config {{ item.key }}"
+    block: "{{ lookup('template', 'wg-config.j2') }}"
+  with_dict: "{{ wg_user_list }}"
+  when: (item.value.remove == true)
+  no_log: true
+  notify: restart wg0
+
+- name: Fetch Wireguard users configs
+  local_action: template src=wg0-user.j2 dest=config/wg0-{{item.key}}.conf
+  with_dict: "{{ wg_user_list }}"
+  when: (item.value.remove == false)
+  become: false
+  no_log: true

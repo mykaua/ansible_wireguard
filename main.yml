@@ -1,0 +1,8 @@
+---
+- name: install wireguard
+  hosts: all
+  become: true
+
+  roles:
+    - role: wireguard_install
+    - role: wireguard_users

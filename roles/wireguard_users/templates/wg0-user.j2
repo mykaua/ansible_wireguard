@@ -1,0 +1,14 @@
+[Interface]
+PrivateKey = {{ item.value.wg_user_private_key }}
+Address = {{ item.value.wg_user_private_ip }}/24
+{% if (client_dns is defined) and client_dns %}
+DNS = {% for host in client_dns%}
+{{ host }}
+{%- if not loop.last %},{% endif %}
+{% endfor %}
+{% endif %}
+
+[Peer]
+PublicKey = {{wg_public_key}}
+Endpoint = {{ wg_public_ip }}:{{wg_port}}
+AllowedIPs = {{ allowed_ips }}
