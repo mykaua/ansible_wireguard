@@ -21,6 +21,7 @@ Ansible playbook with roles for installing WireGuard VPN and for generating clie
 * Ansible Vault
 * Ubuntu 20.04
 * bash
+* qrencode (optional)
 
 ## Dependencies
 
@@ -134,6 +135,14 @@ The private and public keys should be taken from output of ```./keys.sh``` scrip
 
 
 ~$ ansible-playbook main.yml --vault-password-file=.vault_pass
+```
+
+### Show client configs as QR code
+
+After running playbook run the following script:
+
+```sh
+./qr-configs.sh
 ```
 
 ## Additional
