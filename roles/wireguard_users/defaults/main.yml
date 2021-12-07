@@ -9,7 +9,7 @@ client_dns:
   - 8.8.8.8
   - 1.1.1.1
 wg_public_key: a5x0XZG1RmHEP/r1A3OSD5B+L4l5Z7/TSx1G7xTeNxY=
-download_path: ./config
+download_path: ./client-configs
 
 # user parameter
 wg_user_list:
