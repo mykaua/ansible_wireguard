@@ -2,5 +2,5 @@
 Address = {{ wg_ipv4 }}/32
 PrivateKey = {{ wg_private_key }}
 ListenPort = {{ wg_port }}
-PostUp = iptables -A FORWARD -i {{wg_public_nic}} -o {{wg_nic}} -j ACCEPT;iptables -A FORWARD -i {{wg_nic}} -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ wg_public_nic }} -j MASQUERADE
-PostDown = iptables -D FORWARD -i {{wg_public_nic}} -o {{wg_nic}} -j ACCEPT; iptables -D FORWARD -i {{wg_nic}} -j ACCEPT; iptables -t nat -D POSTROUTING -o {{wg_public_nic}} -j MASQUERADE;
+PostUp = iptables -A FORWARD -i {{wg_nic}} -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ wg_public_nic }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i {{wg_nic}} -j ACCEPT; iptables -t nat -D POSTROUTING -o {{wg_public_nic}} -j MASQUERADE

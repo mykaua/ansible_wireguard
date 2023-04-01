@@ -152,3 +152,10 @@ https://www.wireguard.com
 https://github.com/angristan/wireguard-install
 
 https://www.procustodibus.com/blog/2021/03/wireguard-logs/
+
+
+PS: oci_instance - my branch for deploying wireguard to OCI instance.
+
+Inventory file has to be added.
+
+ansible-playbook main.yml --vault-password-file=.valut_pass -i inventory_all
